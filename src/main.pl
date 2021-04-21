@@ -9,7 +9,18 @@
  */
 
 :- use_module(input).
+:- use_module(graph).
+
+
+process_perms([]) :- !.
+process_perms([P|PS]) :-
+	get_tree(P, Tree),
+	print_tree(Tree),
+	process_perms(PS).
+
 
 main :-
-	load(S),
-	write(S).
+	load(Edges),
+	bagof(Perm, permutation(Edges, Perm), Perms),
+	process_perms(Perms),
+	halt.

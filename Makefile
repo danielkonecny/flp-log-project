@@ -19,7 +19,7 @@ TEST = test/
 all: $(PROJECT)
 
 test: $(PROJECT)
-	./$(PROJECT) < $(TEST)test1.in > $(TEST)test1.tmp
+	./$(PROJECT) < $(TEST)test1.in # > $(TEST)test1.tmp
 
 clean:
 	rm $(PROJECT) $(TEST)*.tmp
@@ -28,5 +28,5 @@ pack:
 	zip -r flp-log-$(LOGIN).zip $(SRC) $(DOC) $(TEST) Makefile
 
 # Binary
-$(PROJECT): $(SRC)main.$(SUFFIX) $(SRC)input.$(SUFFIX) 
+$(PROJECT): $(SRC)main.$(SUFFIX) $(SRC)input.$(SUFFIX) $(SRC)graph.$(SUFFIX)
 	$(PROLOG) -q -g main -o $@ -c $^
