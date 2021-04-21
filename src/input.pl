@@ -1,11 +1,14 @@
-/** FLP 2020
-Toto je ukazkovy soubor zpracovani vstupu v prologu.
-Tento soubor muzete v projektu libovolne pouzit.
+/**
+ * Graph Spanning Tree
+ * Obtain all spanning trees of a graph.
+ * @file            input.pl (Overtaken from project assignment and edited.)
+ * @version         1.0
+ * @author          Martin Hyrs (ihyrs@fit.vutbr.cz), Daniel Konecny (xkonec75)
+ * @organisation    Brno University of Technology - Faculty of Information Technologies
+ * @date            21. 04. 2021
+ */
 
-autor: Martin Hyrs, ihyrs@fit.vutbr.cz
-preklad: swipl -q -g start -o flp19-log -c input2.pl
-*/
-
+:- module(input, [load/1, start/0, start2/1]).
 
 /** cte radky ze standardniho vstupu, konci na LF nebo EOF */
 read_line(L,C) :-
@@ -46,6 +49,12 @@ start :-
 		split_lines(LL,S),
 		write(S),
 		halt.
+
+
+load(S) :-
+	prompt(_, ''),
+	read_lines(LL),
+	split_lines(LL, S).
 
 
 /** nacte zadany pocet radku */
