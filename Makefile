@@ -19,7 +19,7 @@ TEST = test/
 all: $(PROJECT)
 
 test: $(PROJECT)
-	./$(PROJECT) < $(TEST)test1.in # > $(TEST)test1.tmp
+	./$(PROJECT) < $(TEST)test1.in #> $(TEST)test0.tmp
 
 clean:
 	rm $(PROJECT) $(TEST)*.tmp
