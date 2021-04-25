@@ -29,6 +29,9 @@ get_trees([P|PS], [T|TS]) :-
 	retractall(tree(_)),
 	get_trees(PS, TS).
 
+/**
+ * Filters spanning tree candidates from permutations of edges.
+ */
 get_tree([], Tree) :- bagof(Edges, tree(Edges), Tree), !.
 get_tree([E|ES], Tree) :-
 	has_cycle(E) ->
@@ -42,7 +45,14 @@ get_tree([E|ES], Tree) :-
 		retractall(accessibles(_)),
 		get_tree(ES, Tree)
 	).
-
+/**
+ * Adds edges to tree until cycle is formed.
+ * It does that by saving currently accessible vertices.
+ * First it saves one vertex of the new edge and then it tries
+   to access the other vertex using edges from the tree.
+ * If it is accessible, then there is a cycle, this edge is not added
+   and the edge insertion is stopped.
+ */
 has_cycle([[E1], [E2]]) :-
 	bagof(Edges, tree(Edges), Tree),
 	assertz(accessibles(E1)),
@@ -71,7 +81,10 @@ get_accesibles([Edge | Edges]) :-
 new_accessible([[V1], [V2]], V2) :- accessibles(V1), \+ accessibles(V2), !.
 new_accessible([[V1], [V2]], V1) :- accessibles(V2), \+ accessibles(V1), !.
 
-
+/**
+ * Used for storing the number of vertices in a graph for
+   analyzing whether all vertices are in a graph candidate.
+ */
 save_all_vertices(_, []) :- !.
 save_all_vertices(Location, [[[V1], [V2]] | Edges]) :-
 	Vertex =.. [Location, V1],
@@ -91,7 +104,9 @@ get_vertex_count(Location, Count) :-
     findall(t, Vertices, L),
     length(L, Count).
 
-
+/**
+ * Filters out tree that do not cover all vertices.
+ */
 filter_tree_all_vertices(Trees, Filtered) :-
 	get_vertex_count(vertices, GraphCount),
 	filter_tree_all_vertices(Trees, Filtered, GraphCount).
@@ -111,7 +126,9 @@ get_temp_vertex_count(Location, Edges, Count) :-
 	save_all_vertices(Location, Edges),
 	get_vertex_count(Location, Count).
 
-
+/**
+ * Filters out tree that are not continuous.
+ */
 filter_tree_discontinuous(Trees, Filtered) :-
 	get_vertex_count(vertices, GraphCount),
 	filter_tree_discontinuous(Trees, Filtered, GraphCount).
@@ -133,7 +150,12 @@ get_accessible_vertex_count([[[E1], [E2]] | Edges], Count) :-
     length(L, Count),
     retractall(accessibles(_)).
 
-
+/**
+ * Sorts trees by:
+	* vertex order in an edge,
+	* edge order in a tree,
+	* tree order in given list.
+ */
 sort_trees(Trees, SortedTrees) :-
 	sort_edges(Trees, SortedEdges),
 	sort(SortedEdges, SortedTrees).
@@ -149,7 +171,9 @@ sort_vertices([Vertex | Vertices], [SortedVertex | SortedVertices]) :-
 	sort(Vertex, SortedVertex),
 	sort_vertices(Vertices, SortedVertices).
 
-
+/**
+ * Prints the solution to stdout in format defined by the assignment.
+ */
 print_solutions([]) :- !.
 print_solutions([T|TS]) :- print_tree(T), print_solutions(TS).
 

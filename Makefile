@@ -5,7 +5,7 @@
 # Course: 		FLP - Functional and Logic Programming
 # Organisation:	Brno University of Technology - Faculty of Information Technology
 # Author: 		Daniel Konecny (xkonec75)
-# Date: 		21. 04. 2021
+# Date: 		25. 04. 2021
 
 # Macros
 PROLOG = swipl
@@ -18,8 +18,8 @@ TEST = test/
 
 all: $(PROJECT)
 
-test: $(PROJECT)
-	./$(PROJECT) < $(TEST)test1.in > $(TEST)test1.tmp
+test:
+	./$(PROJECT) < $(TEST)test$(NUM).in > $(TEST)test$(NUM).tmp
 
 clean:
 	rm $(PROJECT) $(TEST)*.tmp
